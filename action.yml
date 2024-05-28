@@ -1,13 +1,17 @@
 name: 'Update Version Number'
 description: 'A GitHub Action to update the version number of a file in a branch and lower branches'
 author: 'RecordLinkingLab recordlinkinglab@gmail.com'
+inputs:
+  token:
+    description: 'The bot token to use for the commit'
+    required: true
 runs:
   using: "composite"
   steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          token: ${{secrets.RLL_BOT_PERSONAL_ACCESS_TOKEN}} 
+          token: ${{ inputs.token }} 
 
       - name: Setup python
         uses: actions/setup-python@v5
