@@ -45,7 +45,7 @@ runs:
           if [ "$branch" = "prd" ]; then
             git checkout stg
             git merge origin/prd --strategy-option theirs
-            COMMIT_MSG=$(python UpdateVersion.py)
+            COMMIT_MSG=$(python ${{ github.action_path }}/UpdateVersion.py)
             NEW_VERSION=$(echo $COMMIT_MSG | awk -F'to ' '{print $2}')
             echo $COMMIT_MSG
             git add _version.py
@@ -58,7 +58,7 @@ runs:
           if [ "$branch" = "stg" ] || [ "$branch" = "prd" ]; then
             git checkout dev
             git merge origin/stg --strategy-option theirs
-            COMMIT_MSG=$(python UpdateVersion.py)
+            COMMIT_MSG=$(python ${{ github.action_path }}/UpdateVersion.py)
             NEW_VERSION=$(echo $COMMIT_MSG | awk -F'to ' '{print $2}')
             echo $COMMIT_MSG
             git add _version.py
