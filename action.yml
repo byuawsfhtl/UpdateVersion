@@ -21,7 +21,7 @@ runs:
       - name: Update Version Number
         shell: bash
         run: |
-          COMMIT_MSG=$(python UpdateVersion.py)
+          COMMIT_MSG=$(python ${{ github.action_path }}/UpdateVersion.py)
           echo $COMMIT_MSG
           echo "COMMIT_MSG=$COMMIT_MSG" >> $GITHUB_ENV
           echo "NEW_VERSION=$(echo $COMMIT_MSG | awk -F'to ' '{print $2}')" >> $GITHUB_ENV
