@@ -21,7 +21,7 @@ runs:
       - name: Update Version Number
         shell: bash
         run: |
-          COMMIT_MSG=$(python ${{ github.action_path }}/UpdateVersion.py)
+          COMMIT_MSG=$(python ${{ github.action_path }}/UpdateVersion.py ${{ github.workspace }}/_version.py)
           echo $COMMIT_MSG
           echo "COMMIT_MSG=$COMMIT_MSG" >> $GITHUB_ENV
           echo "NEW_VERSION=$(echo $COMMIT_MSG | awk -F'to ' '{print $2}')" >> $GITHUB_ENV
@@ -45,7 +45,7 @@ runs:
           if [ "$branch" = "prd" ]; then
             git checkout stg
             git merge origin/prd --strategy-option theirs
-            COMMIT_MSG=$(python ${{ github.action_path }}/UpdateVersion.py)
+            COMMIT_MSG=$(python ${{ github.action_path }}/UpdateVersion.py ${{ github.workspace }}/_version.py)
             NEW_VERSION=$(echo $COMMIT_MSG | awk -F'to ' '{print $2}')
             echo $COMMIT_MSG
             git add _version.py
@@ -58,7 +58,7 @@ runs:
           if [ "$branch" = "stg" ] || [ "$branch" = "prd" ]; then
             git checkout dev
             git merge origin/stg --strategy-option theirs
-            COMMIT_MSG=$(python ${{ github.action_path }}/UpdateVersion.py)
+            COMMIT_MSG=$(python ${{ github.action_path }}/UpdateVersion.py ${{ github.workspace }}/_version.py)
             NEW_VERSION=$(echo $COMMIT_MSG | awk -F'to ' '{print $2}')
             echo $COMMIT_MSG
             git add _version.py

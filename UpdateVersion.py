@@ -1,9 +1,5 @@
 from pathlib import Path
-
-try:
-    from _version import __version__ # type: ignore
-except ImportError:
-    __version__ = '0.0.0'
+import sys
 
 def getActiveBranchName() -> str:
     """Get the name of the active branch.
@@ -86,10 +82,17 @@ def updateDevVersion(oldVersion: str) -> str:
     # Should never come from prd
     return newVersion
         
+def importVersion(filePath):
+    with open(filePath, 'r') as f:
+        for line in f:
+            if '__version__' in line:
+                return line.split('=')[1].strip().strip('\'')
+    return None
 
 if __name__ == '__main__':
     """Auto-update the version number based on the current branch."""
-    oldVersion = __version__
+    versionFile = sys.argv[1]
+    oldVersion = importVersion(versionFile)
     branch = getActiveBranchName()
 
     if branch == 'prd':
