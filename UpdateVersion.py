@@ -104,7 +104,7 @@ if __name__ == '__main__':
     else:
         newVersion = oldVersion
 
-    with open("_version.py", "w") as f:
+    with open(versionFile, "w") as f:
         f.write(f'__version__ = \'{newVersion}\'')
 
     print(f'Auto-updated version from {oldVersion} to {newVersion}')
