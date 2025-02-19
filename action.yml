@@ -5,6 +5,10 @@ inputs:
   token:
     description: 'The bot token to use for the commit'
     required: true
+  versionPath:
+    description: "The location of the version file"
+    required: false
+    default: ${{ github.workspace }}/_version.py
 runs:
   using: "composite"
   steps:
@@ -21,7 +25,7 @@ runs:
       - name: Update Version Number
         shell: bash
         run: |
-          COMMIT_MSG=$(python ${{ github.action_path }}/UpdateVersion.py ${{ github.workspace }}/_version.py)
+          COMMIT_MSG=$(python ${{ github.action_path }}/UpdateVersion.py ${{ inputs.versionPath }} )
           echo $COMMIT_MSG
           echo "COMMIT_MSG=$COMMIT_MSG" >> $GITHUB_ENV
           echo "NEW_VERSION=$(echo $COMMIT_MSG | awk -F'to ' '{print $2}')" >> $GITHUB_ENV
