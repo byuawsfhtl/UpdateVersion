@@ -35,7 +35,7 @@ runs:
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git add _version.py
+          git add ${{ inputs.versionPath }}
           git commit -m "${{ env.COMMIT_MSG }}"
           git tag ${{ env.NEW_VERSION }}
           git push
@@ -49,10 +49,10 @@ runs:
           if [ "$branch" = "prd" ]; then
             git checkout stg
             git merge origin/prd --strategy-option theirs
-            COMMIT_MSG=$(python ${{ github.action_path }}/UpdateVersion.py ${{ github.workspace }}/_version.py)
+            COMMIT_MSG=$(python ${{ github.action_path }}/UpdateVersion.py ${{ inputs.versionPath }})
             NEW_VERSION=$(echo $COMMIT_MSG | awk -F'to ' '{print $2}')
             echo $COMMIT_MSG
-            git add _version.py
+            git add ${{ inputs.versionPath }}
             git commit -m "$COMMIT_MSG"
             git tag $NEW_VERSION
             git push
@@ -62,10 +62,10 @@ runs:
           if [ "$branch" = "stg" ] || [ "$branch" = "prd" ]; then
             git checkout dev
             git merge origin/stg --strategy-option theirs
-            COMMIT_MSG=$(python ${{ github.action_path }}/UpdateVersion.py ${{ github.workspace }}/_version.py)
+            COMMIT_MSG=$(python ${{ github.action_path }}/UpdateVersion.py ${{ inputs.versionPath }})
             NEW_VERSION=$(echo $COMMIT_MSG | awk -F'to ' '{print $2}')
             echo $COMMIT_MSG
-            git add _version.py
+            git add ${{ inputs.versionPath }}
             git commit -m "$COMMIT_MSG"
             git tag $NEW_VERSION
             git push
