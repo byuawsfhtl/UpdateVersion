@@ -80,6 +80,10 @@ def updateDevVersion(oldVersion: str) -> str:
     elif 'b' in oldVersion:
         newVersion = oldVersion + '.dev0'
     # Should never come from prd
+    else:
+        newVersion = oldVersion.split('.')
+        newVersion[-1] = str(int(newVersion[-1]) + 1)
+        newVersion = '.'.join(newVersion)
     return newVersion
         
 def importVersion(filePath):
@@ -93,7 +97,7 @@ if __name__ == '__main__':
     """Auto-update the version number based on the current branch."""
     versionFile = sys.argv[1]
     oldVersion = importVersion(versionFile)
-    branch = getActiveBranchName()
+    branch = sys.argv[2] if len(sys.argv) > 2 else getActiveBranchName()
 
     if branch == 'prd':
         newVersion = updatePrdVersion(oldVersion)
