@@ -8,7 +8,8 @@ def getActiveBranchName() -> str:
         str: the name of the active branch
     """
     head_dir = Path(".") / ".git" / "HEAD"
-    with head_dir.open("r") as f: content = f.read().splitlines()
+    with head_dir.open("r") as f: 
+        content = f.read().splitlines()
 
     for line in content:
         if line[0:4] == "ref:":
