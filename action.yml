@@ -33,6 +33,7 @@ runs:
       - name: Commit Version Update
         shell: bash
         run: |
+          git pull
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add ${{ inputs.versionPath }}
