@@ -46,7 +46,7 @@ runs:
         run: |
           branch=$(echo "${GITHUB_REF#refs/heads/}")
 
-          if [ "$branch" = "prd" ]; then
+          if [ "$branch" = "prd" ] && git ls-remote --heads origin stg | grep -q 'refs/heads/stg'; then
             git checkout stg
             git merge origin/prd --strategy-option theirs
             COMMIT_MSG=$(python ${{ github.action_path }}/UpdateVersion.py ${{ inputs.versionPath }})
